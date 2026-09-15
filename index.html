@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samuel Córdoba Hernández — Portafolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #d6d2bc;
+    --bg-soft: #ccc8b0;
+    --panel: #46453d;
+    --panel-light: #58564a;
+    --ink: #2b2a24;
+    --ink-soft: #5c5a4d;
+    --cream: #efebd8;
+    --line: #8a8672;
+    --line-soft: #b6b19a;
+    --accent: #3a3a32;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Rajdhani', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'Share Tech Mono', monospace;}
+
+  /* background circuitry */
+  .bg-lines{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    opacity:0.35;
+  }
+
+  .frame{
+    position:relative;
+    z-index:1;
+    max-width:1180px;
+    margin:0 auto;
+    padding:28px 24px 60px;
+  }
+
+  /* ===== NAV ===== */
+  nav.tabs{
+    display:flex;
+    border-bottom:2px solid var(--panel);
+    flex-wrap:wrap;
+  }
+  .tab-btn{
+    background:var(--bg);
+    border:none;
+    border-right:1px solid var(--line-soft);
+    color:var(--ink-soft);
+    font-family:'Rajdhani', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:0.08em;
+    padding:12px 20px 12px 14px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:background .15s, color .15s;
+  }
+  .tab-btn .box{
+    width:11px; height:11px;
+    border:1.5px solid var(--ink-soft);
+    display:inline-block;
+    flex-shrink:0;
+  }
+  .tab-btn:hover{ background:var(--line-soft); color:var(--ink); }
+  .tab-btn.active{
+    background:var(--panel);
+    color:var(--cream);
+  }
+  .tab-btn.active .box{
+    background:var(--cream);
+    border-color:var(--cream);
+  }
+
+  .dotted-rule{
+    height:14px;
+    background-image: radial-gradient(circle, var(--ink-soft) 1.1px, transparent 1.4px);
+    background-size:14px 14px;
+    background-position:0 4px;
+    opacity:0.55;
+    margin-bottom:26px;
+  }
+
+  /* ===== PAGE TITLE ===== */
+  .page-title{
+    font-size:44px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    color:var(--ink);
+    margin:0 0 22px 0;
+    text-shadow: 1px 1px 0 var(--line-soft);
+  }
+  .page-title .box{
+    width:20px;height:20px;
+    border:2px solid var(--ink);
+    display:inline-block;
+    margin-right:14px;
+    vertical-align:-3px;
+    background:var(--cream);
+  }
+
+  section.view{ display:none; }
+  section.view.active{ display:block; animation: fadeIn .25s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ===== two-column layout ===== */
+  .split{
+    display:grid;
+    grid-template-columns: 220px 1fr 300px;
+    gap:0;
+    min-height:420px;
+    border-top:1px solid var(--line);
+  }
+  .col-nav{
+    border-right:2px solid var(--panel);
+    padding-right:0;
+  }
+  .col-nav .group-label{
+    font-family:'Share Tech Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    padding:10px 12px 6px;
+    letter-spacing:0.06em;
+  }
+  .item-btn{
+    width:100%;
+    text-align:left;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--line-soft);
+    padding:11px 14px;
+    font-family:'Rajdhani', sans-serif;
+    font-size:15px;
+    font-weight:500;
+    color:var(--ink-soft);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .item-btn .box{
+    width:10px;height:10px;
+    border:1.5px solid var(--ink-soft);
+    flex-shrink:0;
+  }
+  .item-btn:hover{ background:var(--line-soft); color:var(--ink); }
+  .item-btn.sel{
+    background:var(--panel);
+    color:var(--cream);
+  }
+  .item-btn.sel .box{ background:var(--cream); border-color:var(--cream); }
+
+  .col-detail{
+    padding:0 26px;
+    border-right:2px solid var(--panel);
+  }
+  .col-side{
+    background:var(--cream);
+    padding:18px 20px;
+  }
+  .col-side .bar{
+    background:var(--panel);
+    color:var(--cream);
+    font-family:'Share Tech Mono', monospace;
+    font-size:13px;
+    padding:9px 12px;
+    margin:0 -20px 14px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .stat-row{
+    display:flex;
+    justify-content:space-between;
+    font-family:'Share Tech Mono', monospace;
+    font-size:13px;
+    padding:6px 0;
+    border-bottom:1px solid var(--line-soft);
+    color:var(--ink);
+  }
+  .stat-row span:first-child{ color:var(--ink-soft); }
+
+  .detail-title{
+    font-size:26px;
+    font-weight:700;
+    margin:18px 0 6px;
+    letter-spacing:0.02em;
+  }
+  .detail-sub{
+    font-family:'Share Tech Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-bottom:18px;
+    letter-spacing:0.04em;
+  }
+  .detail-body p{
+    font-size:15.5px;
+    line-height:1.65;
+    color:var(--ink);
+    margin:0 0 14px;
+  }
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:6px;
+  }
+  .chip{
+    font-family:'Share Tech Mono', monospace;
+    font-size:12px;
+    border:1px solid var(--panel);
+    padding:5px 10px;
+    color:var(--ink);
+    background:var(--bg-soft, var(--bg));
+  }
+
+  /* ===== HOME ===== */
+  .home-grid{
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap:30px;
+    border-top:1px solid var(--line);
+    padding-top:26px;
+  }
+  .home-name{
+    font-size:52px;
+    font-weight:700;
+    line-height:1.05;
+    margin:0 0 8px;
+  }
+  .home-role{
+    font-family:'Share Tech Mono', monospace;
+    font-size:15px;
+    color:var(--ink-soft);
+    letter-spacing:0.05em;
+    margin-bottom:22px;
+  }
+  .status-panel{
+    background:var(--panel);
+    color:var(--cream);
+  }
+  .status-panel .bar{
+    font-family:'Share Tech Mono', monospace;
+    font-size:12px;
+    padding:9px 14px;
+    border-bottom:1px solid var(--cream);
+    letter-spacing:0.05em;
+  }
+  .status-panel .body{ padding:16px 14px 18px; }
+  .status-line{
+    display:flex; justify-content:space-between;
+    font-family:'Share Tech Mono', monospace;
+    font-size:13px;
+    padding:6px 0;
+    border-bottom:1px solid #6b6a5f;
+  }
+  .status-line span:first-child{ color:#c9c4ac; }
+
+  .obj-text{
+    font-size:15.5px;
+    line-height:1.7;
+    color:var(--ink);
+    max-width:66ch;
+  }
+
+  footer.statusbar{
+    margin-top:34px;
+    border-top:2px solid var(--panel);
+    padding-top:10px;
+    display:flex;
+    justify-content:space-between;
+    font-family:'Share Tech Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    letter-spacing:0.05em;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+
+  /* mobile */
+  @media (max-width: 880px){
+    .split{ grid-template-columns: 1fr; }
+    .col-nav, .col-detail{ border-right:none; border-bottom:2px solid var(--panel); }
+    .home-grid{ grid-template-columns:1fr; }
+    .home-name{ font-size:38px; }
+    .page-title{ font-size:32px; }
+  }
+</style>
+</head>
+<body>
+
+<svg class="bg-lines" viewBox="0 0 1200 900" preserveAspectRatio="none">
+  <path d="M -50 850 Q 300 700 250 400 T 500 -50" stroke="#8a8672" stroke-width="1" fill="none"/>
+  <path d="M 1250 100 Q 950 250 1000 500 T 800 950" stroke="#8a8672" stroke-width="1" fill="none"/>
+  <circle cx="250" cy="400" r="3" fill="#8a8672"/>
+  <circle cx="1000" cy="500" r="3" fill="#8a8672"/>
+</svg>
+
+<div class="frame">
+
+  <nav class="tabs" id="tabs">
+    <button class="tab-btn active" data-view="home"><span class="box"></span>HOME</button>
+    <button class="tab-btn" data-view="quests"><span class="box"></span>QUESTS</button>
+    <button class="tab-btn" data-view="weapons"><span class="box"></span>WEAPONS</button>
+    <button class="tab-btn" data-view="intel"><span class="box"></span>INTEL</button>
+    <button class="tab-btn" data-view="system"><span class="box"></span>SYSTEM</button>
+  </nav>
+  <div class="dotted-rule"></div>
+
+  <!-- ===================== HOME ===================== -->
+  <section class="view active" id="view-home">
+    <div class="home-grid">
+      <div>
+        <div class="home-name">SAMUEL<br>CÓRDOBA HERNÁNDEZ</div>
+        <div class="home-role">SOFTWARE ENGINEERING JR · FULL-STACK WEB DEVELOPER</div>
+        <div class="obj-text">
+          Estudiante de ingeniería de software enfocado en construir soluciones tecnológicas prácticas y eficientes.
+          Trabajo con programación, bases de datos y metodologías ágiles, y estoy en constante crecimiento
+          fortaleciendo mis habilidades técnicas para aportar valor real a los proyectos en los que participo.
+        </div>
+        <div class="chip-row" style="margin-top:20px;">
+          <span class="chip">JAVA</span><span class="chip">REACT</span><span class="chip">LARAVEL</span>
+          <span class="chip">NODE.JS</span><span class="chip">MYSQL</span><span class="chip">DOCKER</span>
+        </div>
+      </div>
+      <div class="status-panel">
+        <div class="bar">UNIT STATUS</div>
+        <div class="body">
+          <div class="status-line"><span>ROL</span><span>SOFTWARE ENGINEER JR</span></div>
+          <div class="status-line"><span>UBICACIÓN</span><span>ARMENIA, QUINDÍO</span></div>
+          <div class="status-line"><span>DISPONIBILIDAD</span><span>#OPENTOWORK</span></div>
+          <div class="status-line"><span>ESPAÑOL</span><span>NATIVO</span></div>
+          <div class="status-line"><span>INGLÉS</span><span>A2</span></div>
+          <div class="status-line" style="border-bottom:none;"><span>CERTIFICACIÓN</span><span>SCRUM FC (2022)</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUESTS ===================== -->
+  <section class="view" id="view-quests">
+    <div class="page-title"><span class="box"></span>QUESTS</div>
+    <div class="split" id="quests-split">
+      <div class="col-nav">
+        <div class="group-label">REGISTRO DE MISIONES</div>
+        <button class="item-btn sel" data-q="0"><span class="box"></span>Proyecto 01</button>
+        <button class="item-btn" data-q="1"><span class="box"></span>Proyecto 02</button>
+        <button class="item-btn" data-q="2"><span class="box"></span>Proyecto 03</button>
+      </div>
+      <div class="col-detail" id="quest-detail"></div>
+      <div class="col-side">
+        <div class="bar">ESTADO</div>
+        <div class="stat-row"><span>PROGRESO</span><span id="q-progress">EN CURSO</span></div>
+        <div class="stat-row"><span>TIPO</span><span id="q-type">WEB APP</span></div>
+        <div class="stat-row" style="border-bottom:none;"><span>REPO</span><span id="q-repo">—</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WEAPONS ===================== -->
+  <section class="view" id="view-weapons">
+    <div class="page-title"><span class="box"></span>WEAPONS</div>
+    <div class="split" id="weapons-split">
+      <div class="col-nav">
+        <div class="group-label">CATEGORÍAS</div>
+        <button class="item-btn sel" data-w="0"><span class="box"></span>Lenguajes</button>
+        <button class="item-btn" data-w="1"><span class="box"></span>Frontend</button>
+        <button class="item-btn" data-w="2"><span class="box"></span>Backend</button>
+        <button class="item-btn" data-w="3"><span class="box"></span>Bases de datos</button>
+        <button class="item-btn" data-w="4"><span class="box"></span>Herramientas</button>
+        <button class="item-btn" data-w="5"><span class="box"></span>Diseño / UX</button>
+        <button class="item-btn" data-w="6"><span class="box"></span>Metodologías</button>
+      </div>
+      <div class="col-detail" id="weapon-detail"></div>
+      <div class="col-side">
+        <div class="bar">EQUIPADO</div>
+        <div id="weapon-chips" class="chip-row"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== INTEL ===================== -->
+  <section class="view" id="view-intel">
+    <div class="page-title"><span class="box"></span>INTEL</div>
+    <div class="split" id="intel-split">
+      <div class="col-nav">
+        <div class="group-label">UNIT DATA</div>
+        <button class="item-btn sel" data-i="0"><span class="box"></span>Perfil</button>
+        <button class="item-btn" data-i="1"><span class="box"></span>Formación académica</button>
+        <button class="item-btn" data-i="2"><span class="box"></span>Certificaciones</button>
+        <button class="item-btn" data-i="3"><span class="box"></span>Habilidades adicionales</button>
+        <button class="item-btn" data-i="4"><span class="box"></span>Idiomas</button>
+      </div>
+      <div class="col-detail" id="intel-detail" style="grid-column: span 2; border-right:none; display:flex; gap:26px;"></div>
+    </div>
+  </section>
+
+  <!-- ===================== SYSTEM ===================== -->
+  <section class="view" id="view-system">
+    <div class="page-title"><span class="box"></span>SYSTEM</div>
+    <div class="split" style="grid-template-columns: 220px 1fr;">
+      <div class="col-nav">
+        <div class="group-label">CONFIGURACIÓN</div>
+        <div class="item-btn" style="cursor:default;"><span class="box"></span>Contacto</div>
+      </div>
+      <div class="col-detail" style="border-right:none;">
+        <div class="detail-title">Contacto</div>
+        <div class="detail-sub">CANALES DE COMUNICACIÓN DISPONIBLES</div>
+        <div class="stat-row"><span>EMAIL</span><span>Cordobasamuel80@gmail.com</span></div>
+        <div class="stat-row"><span>TELÉFONO</span><span>318 553 0325</span></div>
+        <div class="stat-row"><span>UBICACIÓN</span><span>Armenia, Quindío, Colombia</span></div>
+        <div class="stat-row" style="border-bottom:none;"><span>LINKEDIN</span><span>/in/samuel-cordoba-hernandez-0328b5382</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="statusbar">
+    <span>SAMUEL CÓRDOBA HERNÁNDEZ // PORTFOLIO SYSTEM</span>
+    <span>NO ERROR</span>
+  </footer>
+
+</div>
+
+<script>
+  // ---- tab switching ----
+  document.querySelectorAll('.tab-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+      document.getElementById('view-'+btn.dataset.view).classList.add('active');
+    });
+  });
+
+  // ---- QUESTS data ----
+  const quests = [
+    {
+      name: "Proyecto 01",
+      progress: "EN CURSO",
+      type: "WEB APP",
+      repo: "github.com/tu-usuario",
+      desc: "Describe aquí de qué trata el proyecto: el problema que resuelve, tu rol y los resultados. Ej: una aplicación de gestión de tareas construida con React y Node.js, con autenticación de usuarios y una API REST.",
+      stack: ["REACT","NODE.JS","MYSQL"]
+    },
+    {
+      name: "Proyecto 02",
+      progress: "COMPLETADO",
+      type: "SITIO WEB",
+      repo: "github.com/tu-usuario",
+      desc: "Reemplaza este texto con la descripción de tu segundo proyecto. Menciona el stack usado, el objetivo, y qué aprendiste al construirlo.",
+      stack: ["LARAVEL","PHP","MYSQL"]
+    },
+    {
+      name: "Proyecto 03",
+      progress: "PLANIFICADO",
+      type: "API / BACKEND",
+      repo: "github.com/tu-usuario",
+      desc: "Espacio reservado para un tercer proyecto. Puedes usarlo para un trabajo académico, una práctica personal, o algo que tengas en desarrollo.",
+      stack: ["SPRING BOOT","DOCKER"]
+    }
+  ];
+  function renderQuest(i){
+    const q = quests[i];
+    document.getElementById('quest-detail').innerHTML = `
+      <div class="detail-title">${q.name}</div>
+      <div class="detail-sub">REGISTRO DE MISIÓN Nº ${String(i+1).padStart(2,'0')}</div>
+      <div class="detail-body"><p>${q.desc}</p></div>
+      <div class="chip-row">${q.stack.map(s=>`<span class="chip">${s}</span>`).join('')}</div>
+    `;
+    document.getElementById('q-progress').textContent = q.progress;
+    document.getElementById('q-type').textContent = q.type;
+    document.getElementById('q-repo').textContent = q.repo;
+  }
+  document.querySelectorAll('[data-q]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('[data-q]').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      renderQuest(+btn.dataset.q);
+    });
+  });
+  renderQuest(0);
+
+  // ---- WEAPONS data ----
+  const weapons = [
+    { name:"Lenguajes", sub:"HABILIDADES DE PROGRAMACIÓN BASE", desc:"Los lenguajes con los que Samuel construye la lógica de sus aplicaciones, desde scripting hasta tipado estático para proyectos más robustos.", items:["JAVA","PYTHON","TYPESCRIPT","JAVASCRIPT","SQL"] },
+    { name:"Frontend", sub:"INTERFAZ Y EXPERIENCIA DE USUARIO", desc:"Frameworks y librerías usadas para construir interfaces web funcionales y responsivas.", items:["REACT","ANGULAR","VUE","HTML","CSS"] },
+    { name:"Backend", sub:"LÓGICA DE SERVIDOR Y SERVICIOS", desc:"Tecnologías del lado del servidor con las que desarrolla APIs y la lógica de negocio de sus aplicaciones.", items:["NODE.JS","SPRING BOOT","PHP","LARAVEL"] },
+    { name:"Bases de datos", sub:"ALMACENAMIENTO Y GESTIÓN DE DATOS", desc:"Sistemas de bases de datos relacionales que utiliza para modelar y consultar información de forma eficiente.", items:["MYSQL","SQL SERVER","MARIADB","MYSQL WORKBENCH"] },
+    { name:"Herramientas", sub:"FLUJO DE TRABAJO Y CALIDAD", desc:"Herramientas de control de versiones, pruebas y despliegue que forman parte de su flujo de trabajo diario.", items:["GIT","GITHUB","DOCKER","GITHUB ACTIONS","POSTMAN","JUNIT"] },
+    { name:"Diseño / UX", sub:"PROTOTIPADO Y DISEÑO VISUAL", desc:"Herramientas de diseño usadas para prototipar interfaces y crear recursos visuales.", items:["FIGMA","ADOBE ILLUSTRATOR"] },
+    { name:"Metodologías", sub:"GESTIÓN DE PROYECTOS", desc:"Marco de trabajo ágil aplicado en proyectos colaborativos, con certificación oficial.", items:["SCRUM (CERTIFICADO)"] },
+  ];
+  function renderWeapon(i){
+    const w = weapons[i];
+    document.getElementById('weapon-detail').innerHTML = `
+      <div class="detail-title">${w.name}</div>
+      <div class="detail-sub">${w.sub}</div>
+      <div class="detail-body"><p>${w.desc}</p></div>
+    `;
+    document.getElementById('weapon-chips').innerHTML = w.items.map(s=>`<span class="chip">${s}</span>`).join('');
+  }
+  document.querySelectorAll('[data-w]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('[data-w]').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      renderWeapon(+btn.dataset.w);
+    });
+  });
+  renderWeapon(0);
+
+  // ---- INTEL data ----
+  const intel = [
+    {
+      title:"Perfil",
+      sub:"RESUMEN GENERAL",
+      body:`<p>Samuel Córdoba Hernández es estudiante de ingeniería de software con enfoque full-stack. Su objetivo es desarrollar una carrera profesional sólida aplicando programación, bases de datos y metodologías ágiles para ofrecer soluciones tecnológicas innovadoras y eficientes.</p>
+            <p>Actualmente en búsqueda de oportunidades como Software Engineer Jr o Full-Stack Developer.</p>`
+    },
+    {
+      title:"Formación académica",
+      sub:"EAM UNIVERSITY INSTITUTION",
+      body:`<p>Ingeniería de software — EAM University Institution.</p>`
+    },
+    {
+      title:"Certificaciones",
+      sub:"SCRUM FUNDAMENTALS CERTIFIED (SFC)",
+      body:`<p>Certificación Scrum obtenida en 2022, validando conocimientos en metodologías ágiles aplicadas a la gestión de proyectos de software.</p>`
+    },
+    {
+      title:"Habilidades adicionales",
+      sub:"MÁS ALLÁ DEL CÓDIGO",
+      body:`<p>• Trabajo en equipo y comunicación efectiva en entornos colaborativos.</p>
+            <p>• Aplicación de patrones de diseño de software para soluciones escalables.</p>
+            <p>• Despliegue y gestión de aplicaciones contenedorizadas con Docker.</p>`
+    },
+    {
+      title:"Idiomas",
+      sub:"COMUNICACIÓN",
+      body:`<p>Español: nativo.</p><p>Inglés: nivel A2.</p>`
+    },
+  ];
+  function renderIntel(i){
+    const d = intel[i];
+    document.getElementById('intel-detail').innerHTML = `
+      <div style="flex:1;">
+        <div class="detail-title">${d.title}</div>
+        <div class="detail-sub">${d.sub}</div>
+        <div class="detail-body">${d.body}</div>
+      </div>
+      <div style="width:150px; flex-shrink:0; border:2px solid var(--panel); background:var(--cream); display:flex; align-items:center; justify-content:center; font-family:'Share Tech Mono', monospace; font-size:34px; color:var(--panel); height:150px; align-self:flex-start;">SC</div>
+    `;
+  }
+  document.querySelectorAll('[data-i]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('[data-i]').forEach(b=>b.classList.remove('sel'));
+      btn.classList.add('sel');
+      renderIntel(+btn.dataset.i);
+    });
+  });
+  renderIntel(0);
+</script>
+</body>
+</html>
